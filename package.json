@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc",
     "prebuild": "rimraf dist",
-    "prepare": "npm run prebuild",
+    "prepare": "npm run build",
     "dev": "npm run prebuild && tsc -w"
   },
   "repository": {
