@@ -9,7 +9,11 @@ export class FactoryMetadataStorageHost {
   }
 
   getPropertyMetadatasByTarget(target: Type<unknown>): PropertyMetadata[] {
-    return this.properties.filter(property => property.target === target);
+    let targets: Type<unknown>[] = []
+    do {
+      targets.push(target)
+    } while (target = Object.getPrototypeOf(target))
+    return this.properties.filter(property => targets.includes(<any>property.target));
   }
 }
 
