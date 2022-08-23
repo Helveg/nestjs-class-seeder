@@ -3,10 +3,10 @@ import { Seeder } from './seeder.interface';
 
 @Injectable()
 export class SeederService {
-  constructor(private readonly seeders: Seeder[]) {}
+  constructor(private readonly seeders: Seeder[], public refresh: boolean = false) {}
 
   async run(): Promise<any> {
-    const promises = this.shouldRefresh()
+    const promises = this.refresh
       ? [this.drop(), this.seed()]
       : [this.seed()];
 
@@ -27,10 +27,5 @@ export class SeederService {
         await seeder.drop();
         console.log(`${seeder.constructor.name} dropped`);
     }
-  }
-
-  shouldRefresh(): boolean {
-    const argv = process.argv;
-    return argv.includes('-r') || argv.includes('--refresh');
   }
 }

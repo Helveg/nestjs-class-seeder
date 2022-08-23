@@ -28,7 +28,10 @@ export class SeederModule {
         {
           provide: SeederService,
           useFactory: (...seeders: Seeder[]): SeederService => {
-            return new SeederService(seeders);
+            return new SeederService(
+              seeders,
+              process.argv.includes("-r") || process.argv.includes("--refresh")
+            );
           },
           inject: options.seeders as Type<any>[],
         },
