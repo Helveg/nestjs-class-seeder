@@ -3,7 +3,7 @@ import { Seeder } from './seeder.interface';
 
 @Injectable()
 export class SeederService {
-  constructor(private readonly seeders: Seeder[], public refresh: boolean = false) {}
+  constructor(private readonly seeders: Seeder[], public refresh: boolean = false, public log: boolean = true) {}
 
   async run(): Promise<any> {
     const promises = this.refresh
@@ -18,14 +18,14 @@ export class SeederService {
       // `Promise.all` will run all promises in parallel which is not what we want.
       for (const seeder of this.seeders) {
           await seeder.seed();
-          console.log(`${seeder.constructor.name} completed`);
+          if (this.log) console.log(`${seeder.constructor.name} completed`);
       }
   }
   async drop(): Promise<any> {
     // Drop in reverse order to avoid failed foreign key constraints.
     for (const seeder of this.seeders.slice().reverse()) {
         await seeder.drop();
-        console.log(`${seeder.constructor.name} dropped`);
+        if (this.log) console.log(`${seeder.constructor.name} dropped`);
     }
   }
 }
