@@ -6,11 +6,10 @@ export class SeederService {
   constructor(private readonly seeders: Seeder[], public refresh: boolean = false, public log: boolean = true) {}
 
   async run(): Promise<any> {
-    const promises = this.refresh
-      ? [this.drop(), this.seed()]
-      : [this.seed()];
-
-    return Promise.all(promises);
+    if (this.refresh) {
+      await this.drop()
+    }
+    return await this.seed();
   }
 
   async seed(): Promise<any> {
