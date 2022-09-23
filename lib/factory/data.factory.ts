@@ -20,6 +20,7 @@ export class DataFactory {
       generate: (count: number, values: Record<string, any> = {}): Record<string, FactoryValue>[] => {
         const ret = Array<Record<string, FactoryValue>>();
         for (let i = 0; i < count; i++) {
+          values.i = i;
           ret.push(this.generate(properties, values));
         }
         return ret;
