@@ -1,7 +1,7 @@
 {
-  "name": "nestjs-seeder",
-  "version": "0.2.0",
-  "description": "An extension library for NestJS to perform seeding.",
+  "name": "nestjs-seedling",
+  "version": "0.0.1-alpha.1",
+  "description": "An extension library for NestJS to perform seeding. Forked from nestjs-seeder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "directories": {
@@ -19,10 +19,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edwardanthony/nestjs-seeder"
+    "url": "git+https://github.com/helveg/nestjs-seedling"
   },
-  "bugs": "https://github.com/edwardanthony/nestjs-seeder/issues",
-  "homepage": "https://github.com/edwardanthony/nestjs-seeder#readme",
+  "bugs": "https://github.com/helveg/nestjs-seedling/issues",
+  "homepage": "https://github.com/helveg/nestjs-seedling#readme",
   "keywords": [
     "seeding",
     "seeder",
@@ -30,7 +30,7 @@
     "nestjs",
     "seeder"
   ],
-  "author": "Edward Anthony <edwardanthony@fastmail.com>",
+  "author": "Robin De Schepper <robin.deschepper93@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@faker-js/faker": "^7.4.0"
