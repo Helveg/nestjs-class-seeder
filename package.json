@@ -1,6 +1,6 @@
 {
   "name": "nestjs-class-seeder",
-  "version": "0.0.1-alpha.1",
+  "version": "0.1.0",
   "description": "An extension library for NestJS to perform seeding. Forked from nestjs-seeder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
