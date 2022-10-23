@@ -1,14 +1,8 @@
-import { Faker } from '@faker-js/faker';
-import { SeedlingContext } from 'interfaces/seedling-context.interface';
+import { SeedValue, SeedValueGenerator } from '../interfaces/generator.interface';
+import { SeederFactory } from '../seeder/seeder.factory';
 
-type BaseType = string | number | Date | Buffer | boolean | Record<string, any>;
-export type SeedValue = BaseType | Array<BaseType>;
-export type SeedValueGenerator = (faker?: Faker, ctx?: SeedlingContext) => SeedValue;
-
-const metaKey = Symbol("Seedling metadata");
-
-export function Seed(arg: SeedValueGenerator | SeedValue) {
+export function Seed(arg: SeedValue | SeedValueGenerator): PropertyDecorator {
   return (target: any, propertyKey: string | symbol): void => {
-    Reflect.defineMetadata(metaKey, arg, target, propertyKey)
+    Reflect.defineMetadata(Symbol("Seeder factory metadata"), new SeederFactory(propertyKey, arg), target.constructor);
   };
 }

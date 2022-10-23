@@ -1,4 +1,6 @@
+import { SeederContext } from "../interfaces/context.interface";
+
 export interface Seeder {
-  seed(): Promise<any>;
+  seed(context: SeederContext): Promise<any>;
   drop(): Promise<any>;
 }

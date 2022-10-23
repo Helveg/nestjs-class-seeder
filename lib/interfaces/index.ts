@@ -1,2 +1,2 @@
-export * from './seed.interface';
-export * from './seedling-context.interface';
+export * from './context.interface';
+export * from './generator.interface';
