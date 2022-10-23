@@ -9,6 +9,7 @@ seeder({
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: './ducks.db',
+      synchronize: true,
       entities
     }),
     TypeOrmModule.forFeature(entities),
