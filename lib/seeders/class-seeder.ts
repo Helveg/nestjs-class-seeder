@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Provider, Type } from "@nestjs/common";
-import { SeederContext } from "../interfaces/context.interface";
+import { DropContext, SeederContext } from "../interfaces/context.interface";
 import { SeederFactory } from "../seeder/seeder.factory";
 import { Seeder } from "../seeder/seeder.interface";
 
@@ -16,7 +16,6 @@ export interface ClassSeederOptions<T> {
 export class ClassSeeder<T, RecordOfT extends Record<keyof T, any> = Record<keyof T, any>> implements Seeder {
   protected factories: SeederFactory[];
   constructor(protected readonly seedClass: Type<T>, protected readonly options: ClassSeederOptions<T>) {
-    console.log("Creating class seeder instance for", seedClass, options)
     this.factories = getSeedFactories(seedClass);
   }
 
@@ -27,8 +26,9 @@ export class ClassSeeder<T, RecordOfT extends Record<keyof T, any> = Record<keyo
     return await repo.save(records);
   }
 
-  async drop() {
-
+  async drop(ctx: DropContext) {
+    const repo = ctx.dataSource.getRepository(this.seedClass);
+    await repo.clear();
   }
 
   async getBatchSize(): Promise<number> {
@@ -61,7 +61,6 @@ export class ClassSeeder<T, RecordOfT extends Record<keyof T, any> = Record<keyo
 
 export function createClassSeeder<T>(seedClass: Type<T>, options: ClassSeederOptions<T> = {}): Provider<ClassSeeder<T>> {
   const productClass = options.seeder || ClassSeeder<T>;
-  console.log("picked cls seeder", productClass, options.seeder, ClassSeeder<T>)
   return {
     provide: Symbol(`Class seeder of '${seedClass.name}'`),
     useFactory: () => new productClass(seedClass, options),
