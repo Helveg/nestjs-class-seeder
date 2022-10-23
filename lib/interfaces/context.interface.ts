@@ -10,3 +10,7 @@ export interface SeederContext {
   readonly currentRecords: Map<Type<any>, Record<string, any>[]>;
   readonly dataSource: DataSource;
 }
+
+export interface DropContext {
+  readonly dataSource: DataSource;
+}
