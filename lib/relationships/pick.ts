@@ -11,7 +11,7 @@ export async function pickRelated<T>(idColumns: string[], entities: T[], pick: S
   if (pick === undefined) {
     picked = entities[Math.floor(Math.random() * entities.length)];
   } else if(Array.isArray(pick)) {
-    picked = pick.map(v => pickRelated(idColumns, entities, v, many));
+    picked = await Promise.all(pick.map(v => pickRelated(idColumns, entities, v, many)));
     if (many) {
       picked = Array.prototype.concat(...picked);
     }
