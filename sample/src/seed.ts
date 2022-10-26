@@ -1,8 +1,9 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { createClassSeeders, seeder } from "nestjs-class-seeder";
+import { Beaver } from "./beaver.entity";
 import { Duck } from "./duck.entity";
 
-const entities = [Duck]
+const entities = [Duck, Beaver]
 
 seeder({
   imports: [
@@ -14,6 +15,7 @@ seeder({
     }),
     TypeOrmModule.forFeature(entities),
   ],
+  debug: true,
 }).run([
   ...createClassSeeders(entities)
 ]);

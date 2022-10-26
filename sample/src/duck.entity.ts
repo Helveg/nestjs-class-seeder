@@ -1,7 +1,13 @@
 import { Faker } from '@faker-js/faker';
-import { Seed } from 'nestjs-class-seeder';
+import { Seed, SeedEnum, SeedRelation } from 'nestjs-class-seeder';
 import { SeederContext } from 'nestjs-class-seeder/dist/interfaces/context.interface';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Beaver } from './beaver.entity';
+
+enum BillColors {
+  Normal = "brownish yellow",
+  Abberant = "yellowish brown",
+}
 
 @Entity()
 export class Duck {
@@ -12,10 +18,14 @@ export class Duck {
   @Column()
   legs: number;
 
-  @Seed((faker) => faker.helpers.arrayElement(["brownish yellow", "yellowish brown"]))
+  @SeedEnum(BillColors)
   billColor: string;
 
   @Seed((faker: Faker, ctx: SeederContext) => faker.datatype.number({min: 11300, max: 11400}))
   @Column()
   feathers: number;
+
+  @SeedRelation(() => Beaver)
+  @ManyToOne(() => Beaver, {onDelete: 'SET NULL'})
+  alsoHates: Beaver
 }
