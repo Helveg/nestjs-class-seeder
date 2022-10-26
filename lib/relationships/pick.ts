@@ -10,6 +10,11 @@ export async function pickRelated<T>(idColumns: string[], entities: T[], pick: S
   let picked: T | T[];
   if (pick === undefined) {
     picked = entities[Math.floor(Math.random() * entities.length)];
+  } else if(Array.isArray(pick)) {
+    picked = pick.map(v => pickRelated(idColumns, entities, v, many));
+    if (many) {
+      picked = Array.prototype.concat(...picked);
+    }
   } else if (isQuery(pick)) {
     picked = entities.filter(sift(<any>pick));
     if (many) {
