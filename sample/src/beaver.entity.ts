@@ -10,4 +10,8 @@ export class Beaver {
   @SeedRelation(() => Duck)
   @ManyToOne(() => Duck, {onDelete: 'SET NULL'})
   hates: Duck;
+
+  @SeedRelation(() => Beaver)
+  @ManyToOne(() => Beaver, {onDelete: 'SET NULL'})
+  loves: Beaver;
 }
