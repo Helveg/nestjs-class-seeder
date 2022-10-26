@@ -6,7 +6,7 @@ import { ClassRef, ForwardRef } from '../relationships/references';
 import { SeedRelationQuery, SeedRelationOptions } from '../interfaces/seed-relation.interface';
 import { pickRelated } from '../relationships/pick';
 
-export function SeedRelation<T>(classRef: ClassRef<T>, pick?: SeedRelationQuery, options: SeedRelationOptions = {}): PropertyDecorator {
+export function SeedRelation<T>(classRef: ClassRef<T>, pick?: SeedRelationQuery<T>, options: SeedRelationOptions = {}): PropertyDecorator {
   return (target: any, propertyKey: string | symbol): void => {
     let pickFn: SeedValueGenerator = async (_faker: Faker, context: SeederContext) => {
       const relatedClass = classRef();

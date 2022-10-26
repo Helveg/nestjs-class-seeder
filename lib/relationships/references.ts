@@ -5,15 +5,15 @@ import { pickRelated } from "./pick";
 
 export type ClassRef<T> = () => new () => T;
 
-export abstract class Ref {
+export abstract class Ref<T> {
   public selfClass: Type<any>;
   public selfId: number;
 
   constructor(
     public propertyKey: string | symbol,
     public context: SeederContext,
-    public refClass: Type<any>,
-    public pick: SeedRelationQuery,
+    public refClass: Type<T>,
+    public pick: SeedRelationQuery<T>,
     public options: any = {}
   ) {
     this.selfClass = context.currentClass;
@@ -23,7 +23,7 @@ export abstract class Ref {
   abstract resolve(entities: any[]): Promise<any>
 }
 
-export class ForwardRef<T = any> extends Ref {
+export class ForwardRef<T> extends Ref<T> {
   async resolve(entities: T[]) {
     const self = this.context.savedEntities.get(this.selfClass)[this.selfId];
     const idColumns = this.context.dataSource.getMetadata(this.refClass).primaryColumns

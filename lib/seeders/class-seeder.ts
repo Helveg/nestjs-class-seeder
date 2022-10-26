@@ -118,7 +118,7 @@ export function getSeedFactories(seedClass: Type<any>): SeederFactory[] {
 }
 
 function pilferReferences(records: Record<string, any>[]) {
-  const refs: Ref[] = [];
+  const refs: Ref<any>[] = [];
   for (const record of records) {
     for(const [prop, value] of Object.entries(record)) {
       if (value instanceof Ref) {

@@ -34,15 +34,22 @@
   "license": "MIT",
   "dependencies": {
     "@faker-js/faker": "^7.4.0",
-    "typeorm": "^0.3.10"
+    "@helveg/sift": "^16.0.2",
+    "sift": "@helveg/sift",
+    "typeorm": "^0.3.0"
+  },
+  "peerDependencies": {
+    "@nestjs/common": ">=8.x",
+    "@nestjs/core": ">=8.x",
+    "@nestjs/typeorm": ">=8.x"
   },
   "devDependencies": {
-    "@nestjs/common": "^7.3.1",
-    "@nestjs/core": "^7.3.1",
+    "@nestjs/common": "^9.1.6",
+    "@nestjs/core": "^9.1.6",
     "@types/node": "^16.0.0",
     "reflect-metadata": "*",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.x",
     "typescript": "^4.7.4"
   }
 }

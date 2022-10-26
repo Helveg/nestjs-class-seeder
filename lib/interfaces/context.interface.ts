@@ -12,7 +12,7 @@ export interface SeederContext {
   readonly currentRecords: Map<Type<any>, Record<string, any>[]>;
   readonly savedEntities: Map<Type<any>, any[]>;
   readonly dataSource: DataSource;
-  readonly unresolvedReferences: Ref[];
+  readonly unresolvedReferences: Ref<any>[];
 }
 
 export interface DropContext {
