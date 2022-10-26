@@ -2,19 +2,14 @@ import {
   Module,
   DynamicModule,
   Provider,
-  Type,
-  ForwardReference,
 } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { SeederOptions } from './seeder';
 import { Seeder } from './seeder.interface';
 import { SeederService } from './seeder.service';
 
-export interface SeederModuleOptions {
+export interface SeederModuleOptions extends SeederOptions {
   seeders: Provider<Seeder>[];
-  imports?: Array<
-    Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference
-  >;
-  providers?: Provider[];
 }
 
 @Module({})
@@ -30,12 +25,7 @@ export class SeederModule {
         {
           provide: SeederService,
           useFactory: (dataSource: DataSource, ...seeders: Seeder[]): SeederService => {
-            return new SeederService(
-              dataSource,
-              seeders,
-              process.argv.includes("-r") || process.argv.includes("--refresh"),
-              !(process.argv.includes("-q") || process.argv.includes("--quiet")),
-            );
+            return new SeederService(dataSource, seeders, options.refresh);
           },
           inject: [DataSource, ...tokens],
         },
