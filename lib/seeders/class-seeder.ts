@@ -39,6 +39,7 @@ export class ClassSeeder<T, RecordOfT extends Record<keyof T, any> = Record<keyo
     ctx.unresolvedReferences = ctx.unresolvedReferences.concat(refs);
     this.logger.debug(`Saving records ...`);
     let saved = await repo.save(records);
+    ctx.savedEntities.set(this.seedClass, saved);
     this.logger.debug(`Saved.`);
     const resolvePromises = [];
     const counter = ctx.unresolvedReferences.length;
@@ -50,9 +51,9 @@ export class ClassSeeder<T, RecordOfT extends Record<keyof T, any> = Record<keyo
     if (resolvePromises.length) {
       await Promise.all(resolvePromises);
       saved = await repo.save(records);
+      ctx.savedEntities.set(this.seedClass, saved);
       this.logger.debug(`Resolved.`);
     }
-    ctx.savedEntities.set(this.seedClass, saved);
     this.logger.debug(`Finished.`);
     return saved;
   }
