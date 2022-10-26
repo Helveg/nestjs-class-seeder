@@ -1,14 +1,16 @@
-import { Injectable, Type } from '@nestjs/common';
+import { Injectable, Logger, Type } from '@nestjs/common';
 import { SeederContext } from '../interfaces/context.interface';
 import { DataSource } from 'typeorm';
 import { Seeder } from './seeder.interface';
 
 @Injectable()
 export class SeederService {
+  private logger = new Logger("Seeder");
+
   constructor(
     private readonly dataSource: DataSource,
     private readonly seeders: Seeder[],
-    public refresh: boolean = false, public log: boolean = true
+    public refresh: boolean = false
   ) {
 
   }
@@ -24,6 +26,8 @@ export class SeederService {
     return {
       dataSource: this.dataSource,
       currentRecords: new Map(),
+      savedEntities: new Map(),
+      unresolvedReferences: [],
     } as SeederContext;
   }
 
@@ -32,15 +36,15 @@ export class SeederService {
     // Seed seeders in forward order
     for (const seeder of this.seeders) {
       await seeder.seed(context);
-      if (this.log) console.log(`${seeder.constructor.name} completed`);
+      this.logger.log(`${seeder.getName()} completed.`);
     }
   }
 
   async drop(): Promise<any> {
     // Drop seeders in reverse order
     for (const seeder of this.seeders.slice().reverse()) {
-        await seeder.drop();
-        if (this.log) console.log(`${seeder.constructor.name} dropped`);
+        await seeder.drop({dataSource: this.dataSource});
+        this.logger.log(`${seeder.getName()} dropped.`);
     }
   }
 }
