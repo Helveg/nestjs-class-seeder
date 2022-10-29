@@ -53,8 +53,8 @@ Add these two scripts (`seed` and `seed:refresh`) under the `scripts` property i
 
 ```json
 "scripts": {
-  "seed": "node dist/seeder",
-  "seed:refresh": "node dist/seeder --refresh"
+  "seed": "node -r tsconfig-paths/register -r ts-node/register src/seeder.ts",
+  "seed:refresh": "node -r tsconfig-paths/register -r ts-node/register src/seeder.ts -- --refresh"
 }
 ```
 
