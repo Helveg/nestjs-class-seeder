@@ -10,14 +10,15 @@ export abstract class Ref<T> {
   public selfId: number;
 
   constructor(
-    public propertyKey: string | symbol,
-    public context: SeederContext,
-    public refClass: Type<T>,
-    public pick: SeedRelationPicker<T>,
-    public options: any = {}
+    public readonly propertyKey: string | symbol,
+    public readonly context: SeederContext,
+    public readonly refClass: Type<T>,
+    public readonly pick: SeedRelationPicker<T>,
+    public readonly options: any = {}
   ) {
     this.selfClass = context.currentClass;
     this.selfId = context.currentIndex;
+    this.context = {...context};
   }
 
   abstract resolve(entities: any[]): Promise<any>;
