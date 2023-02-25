@@ -10,7 +10,7 @@ export abstract class Ref<T> {
   public selfId: number;
 
   constructor(
-    public readonly propertyKey: string | symbol,
+    public propertyKey: string | symbol,
     public readonly context: SeederContext,
     public readonly refClass: Type<T>,
     public readonly pick: SeedRelationPicker<T>,
