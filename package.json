@@ -1,6 +1,6 @@
 {
   "name": "nestjs-class-seeder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An extension library for NestJS to perform seeding. Forked from nestjs-seeder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,8 @@
     "build": "tsc",
     "prebuild": "rimraf dist",
     "prepare": "npm run build",
-    "dev": "npm run prebuild && tsc -w"
+    "dev": "npm run prebuild && tsc -w",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -34,8 +35,7 @@
   "license": "MIT",
   "dependencies": {
     "@faker-js/faker": "^7.4.0",
-    "@helveg/sift": "^16.0.2",
-    "sift": "@helveg/sift",
+    "sift": "^16.0.1",
     "typeorm": "^0.3.0"
   },
   "peerDependencies": {
@@ -46,10 +46,32 @@
   "devDependencies": {
     "@nestjs/common": "^9.1.6",
     "@nestjs/core": "^9.1.6",
+    "@types/jest": "^29.4.0",
     "@types/node": "^16.0.0",
+    "jest": "^29.4.3",
     "reflect-metadata": "*",
     "rimraf": "^3.0.2",
     "rxjs": "^7.x",
-    "typescript": "^4.7.4"
+    "sqlite3": "^5.1.4",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4",
+    "uuid": "^9.0.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "lib",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
