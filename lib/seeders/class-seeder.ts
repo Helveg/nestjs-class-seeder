@@ -60,7 +60,7 @@ export class ClassSeeder<T, RecordOfT extends Record<keyof T, any> = Record<keyo
 
   async drop(ctx: DropContext) {
     const repo = ctx.dataSource.getRepository(this.seedClass);
-    await repo.clear();
+    await repo.delete({});
   }
 
   async getBatchSize(): Promise<number> {
