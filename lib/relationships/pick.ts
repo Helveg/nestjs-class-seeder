@@ -3,6 +3,7 @@ import sift from "sift";
 import { SeedRelationPicker, SeederContext } from "../interfaces";
 import { Logger } from "@nestjs/common";
 import { inspect } from "util";
+import * as util from "util";
 
 const logger = new Logger("SeedRelation");
 
@@ -44,11 +45,18 @@ export async function pickRelated<T>(
   } else {
     ((_: never) => {})(pick);
   }
-  return restrict(idColumns, picked);
+  try {
+    return restrict(idColumns, picked);
+  } catch (e) {
+    throw new Error(
+      `Picked invalid relationship object(s): ${util.inspect(picked)}`
+    );
+  }
 }
 
 function restrict<T>(cols: string[], pick: T | T[]): any {
   if (Array.isArray(pick)) return pick.map((v) => restrict(cols, v));
+  else if (pick === null || pick === undefined) return null;
   return Object.fromEntries(
     Object.entries(pick).filter((kv) => cols.includes(kv[0]))
   );
