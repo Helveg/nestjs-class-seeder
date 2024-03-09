@@ -21,7 +21,7 @@ export interface SeederOptions {
 }
 
 export interface SeederRunner {
-  run(seeders: Provider<Seeder>[]): void;
+  run(seeders: Provider<Seeder>[]): Promise<void>;
 }
 
 async function bootstrap(options: SeederModuleOptions) {

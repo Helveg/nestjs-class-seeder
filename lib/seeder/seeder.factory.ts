@@ -1,16 +1,23 @@
 import type { Faker } from "@faker-js/faker";
 import { SeederContext } from "../interfaces/context.interface";
-import { SeedValue, SeedValueGenerator } from "../interfaces/generator.interface";
+import {
+  SeedValue,
+  SeedValueGenerator,
+} from "../interfaces/generator.interface";
 
 export class SeederFactory {
-  private fn: SeedValueGenerator;
-  constructor(public readonly propertyKey: string | symbol, fnOrValue: SeedValue | SeedValueGenerator) {
-    this.fn = (typeof fnOrValue !== "function")
-      ? () => fnOrValue
-      : fnOrValue as SeedValueGenerator
+  private readonly fn: SeedValueGenerator;
+  constructor(
+    public readonly propertyKey: string | symbol,
+    fnOrValue: SeedValue | SeedValueGenerator
+  ) {
+    this.fn =
+      typeof fnOrValue !== "function"
+        ? () => fnOrValue
+        : (fnOrValue as SeedValueGenerator);
   }
 
   async generate(faker: Faker, context: SeederContext): Promise<SeedValue> {
-    return await this.fn(faker, context);
+    return this.fn(faker, context);
   }
 }
