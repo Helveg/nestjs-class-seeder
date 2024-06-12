@@ -1,12 +1,8 @@
-import {
-  Module,
-  DynamicModule,
-  Provider,
-} from '@nestjs/common';
-import { DataSource } from 'typeorm';
-import { SeederOptions } from './seeder';
-import { Seeder } from './seeder.interface';
-import { SeederService } from './seeder.service';
+import { DynamicModule, Module, Provider } from "@nestjs/common";
+import { DataSource } from "typeorm";
+import { SeederOptions } from "./seeder";
+import { Seeder } from "./seeder.interface";
+import { SeederService } from "./seeder.service";
 
 export interface SeederModuleOptions extends SeederOptions {
   seeders: Provider<Seeder>[];
@@ -24,8 +20,16 @@ export class SeederModule {
         ...options.seeders,
         {
           provide: SeederService,
-          useFactory: (dataSource: DataSource, ...seeders: Seeder[]): SeederService => {
-            return new SeederService(dataSource, seeders, options.refresh);
+          useFactory: (
+            dataSource: DataSource,
+            ...seeders: Seeder[]
+          ): SeederService => {
+            return new SeederService(
+              dataSource,
+              seeders,
+              options.refresh,
+              options.repeats
+            );
           },
           inject: [DataSource, ...tokens],
         },
@@ -35,7 +39,7 @@ export class SeederModule {
 }
 
 function getInjectionTokens(providers: Provider<any>[]) {
-  return providers.map(prov => {
+  return providers.map((prov) => {
     if ("provide" in prov) {
       return prov.provide;
     } else {

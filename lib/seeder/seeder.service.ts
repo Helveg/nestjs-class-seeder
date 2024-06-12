@@ -1,7 +1,7 @@
-import { Injectable, Logger, Type } from '@nestjs/common';
-import { SeederContext } from '../interfaces/context.interface';
-import { DataSource } from 'typeorm';
-import { Seeder } from './seeder.interface';
+import { Injectable, Logger } from "@nestjs/common";
+import { SeederContext } from "../interfaces/index.js";
+import { DataSource } from "typeorm";
+import { Seeder } from "./seeder.interface";
 
 @Injectable()
 export class SeederService {
@@ -10,14 +10,13 @@ export class SeederService {
   constructor(
     private readonly dataSource: DataSource,
     private readonly seeders: Seeder[],
-    public refresh: boolean = false
-  ) {
-
-  }
+    public refresh: boolean = false,
+    public repeats: number = 1
+  ) {}
 
   async run(): Promise<any> {
     if (this.refresh) {
-      await this.drop()
+      await this.drop();
     }
     return await this.seed();
   }
@@ -32,19 +31,24 @@ export class SeederService {
   }
 
   async seed(): Promise<any> {
-    const context: SeederContext = await this.createContext();
-    // Seed seeders in forward order
-    for (const seeder of this.seeders) {
-      await seeder.seed(context);
-      this.logger.log(`${seeder.getName()} completed.`);
+    for (let i = 0; i < this.repeats; i++) {
+      if (this.repeats > 1) {
+        this.logger.log(`Repeating seeders ${i} out of ${this.repeats} times.`);
+      }
+      const context: SeederContext = await this.createContext();
+      // Seed seeders in forward order
+      for (const seeder of this.seeders) {
+        await seeder.seed(context);
+        this.logger.log(`${seeder.getName()} completed.`);
+      }
     }
   }
 
   async drop(): Promise<any> {
     // Drop seeders in reverse order
     for (const seeder of this.seeders.slice().reverse()) {
-        await seeder.drop({dataSource: this.dataSource});
-        this.logger.log(`${seeder.getName()} dropped.`);
+      await seeder.drop({ dataSource: this.dataSource });
+      this.logger.log(`${seeder.getName()} dropped.`);
     }
   }
 }

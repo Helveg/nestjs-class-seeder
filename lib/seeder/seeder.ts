@@ -3,11 +3,11 @@ import { SeederModule, SeederModuleOptions } from "./seeder.module";
 import { SeederService } from "./seeder.service";
 import { Seeder } from "./seeder.interface";
 import {
-  Provider,
-  Type,
   DynamicModule,
   ForwardReference,
   LogLevel,
+  Provider,
+  Type,
 } from "@nestjs/common";
 
 export interface SeederOptions {
@@ -16,6 +16,7 @@ export interface SeederOptions {
   >;
   providers?: Provider[];
   refresh?: boolean;
+  repeats?: number;
   debug?: boolean;
   quiet?: boolean;
 }
