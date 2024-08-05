@@ -1,12 +1,11 @@
 import { Type } from "@nestjs/common";
-import { SeedRelationPicker } from "../interfaces";
-import { SeederContext } from "../interfaces";
+import { SeederContext, SeedRelationPicker } from "../interfaces";
 import { pickRelated } from "./pick";
 
 export type ClassRef<T> = () => new () => T;
 
 export abstract class Ref<T> {
-  public selfClass: Type<any>;
+  public selfClass: Type;
   public selfId: number;
 
   constructor(
@@ -18,7 +17,7 @@ export abstract class Ref<T> {
   ) {
     this.selfClass = context.currentClass;
     this.selfId = context.currentIndex;
-    this.context = {...context};
+    this.context = { ...context };
   }
 
   abstract resolve(entities: any[]): Promise<any>;

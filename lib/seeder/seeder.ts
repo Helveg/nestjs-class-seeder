@@ -12,7 +12,7 @@ import {
 
 export interface SeederOptions {
   imports?: Array<
-    Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference
+    Type | DynamicModule | Promise<DynamicModule> | ForwardReference
   >;
   providers?: Provider[];
   refresh?: boolean;
