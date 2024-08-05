@@ -1,15 +1,8 @@
-import { getPrototypeChain, getSeedFactories } from "./class-seeder";
+import { getSeedFactories } from "./class-seeder";
 import { Seed } from "../decorators";
 import { SeederFactory } from "../seeder/seeder.factory";
 
 describe("Inheritance", () => {
-  it("should find a classes prototype chain", () => {
-    class X {}
-    class Y extends X {}
-    expect(getPrototypeChain(X)).toEqual([X]);
-    expect(getPrototypeChain(Y)).toEqual([X, Y]);
-  });
-
   it("should prioritize child class factories", () => {
     const fac1 = () => 1;
     const fac2 = () => 2;

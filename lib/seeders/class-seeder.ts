@@ -142,27 +142,13 @@ export function createClassSeeders(
 export function getSeedFactories<T extends Type>(
   seedClass: T
 ): { [K in keyof T]?: SeederFactory } {
-  return getPrototypeChain(seedClass)
-    .flatMap((cls) =>
-      Reflect.getMetadataKeys(cls)
-        .map((key) => Reflect.getMetadata(key, cls))
-        .filter((meta) => meta instanceof SeederFactory)
-    )
+  return Reflect.getMetadataKeys(seedClass)
+    .map((key) => Reflect.getMetadata(key, seedClass))
+    .filter((meta) => meta instanceof SeederFactory)
     .reduce((acc, factory) => {
       acc[factory.propertyKey] = factory;
       return acc;
     }, {});
-}
-
-export function getPrototypeChain(o: object) {
-  const ans = [o];
-  let t = o;
-  t = Object.getPrototypeOf(t);
-  while (t) {
-    ans.push(t);
-    t = Object.getPrototypeOf(t);
-  }
-  return ans.slice(0, -2).reverse();
 }
 
 function pilferReferences(records: Record<string, any>[]) {
