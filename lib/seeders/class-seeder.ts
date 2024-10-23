@@ -51,7 +51,7 @@ export class ClassSeeder<
     const refs = pilferReferences(records);
     ctx.unresolvedReferences = ctx.unresolvedReferences.concat(refs);
     this.logger.debug(`Saving records ...`);
-    let saved = await repo.save(records);
+    let saved = await repo.save(records.map(r => ({...r})));
     ctx.savedEntities.set(this.seedClass, saved);
     this.logger.debug(`Saved.`);
     const resolvePromises = [];
