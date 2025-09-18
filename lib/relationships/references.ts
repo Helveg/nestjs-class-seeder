@@ -13,7 +13,7 @@ export abstract class Ref<T> {
     public readonly context: SeederContext,
     public readonly refClass: Type<T>,
     public readonly pick: SeedRelationPicker<T>,
-    public readonly options: any = {}
+    public readonly options: any = {},
   ) {
     this.selfClass = context.currentClass;
     this.selfId = context.currentIndex;
@@ -29,12 +29,16 @@ export class ForwardRef<T> extends Ref<T> {
     const idColumns = this.context.dataSource
       .getMetadata(this.refClass)
       .primaryColumns.map((col) => col.propertyName);
-    self[this.propertyKey] = await pickRelated(
+    const toSave = {};
+    for (const primaryColumn of idColumns) {
+      toSave[primaryColumn] = self[primaryColumn];
+    }
+    toSave[this.propertyKey] = await pickRelated(
       this.context,
       idColumns,
       entities,
-      this.pick
+      this.pick,
     );
-    return this.context.dataSource.getRepository(this.selfClass).save(self);
+    return this.context.dataSource.getRepository(this.selfClass).save(toSave);
   }
 }
